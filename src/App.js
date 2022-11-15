@@ -11,19 +11,26 @@ import { Container, H1, Imagem, ContainerItens, InputLabel, Input, Button, User 
 function App ()  {
 
   // const users =  []
-  const [users,setUsers] = useState([]); //Criação de um estado 
-
+  const [users,setUsers] = useState([]);
+  const [name,setName] = useState([]); //Criação de um estado 
+  const [age,setAge] = useState([]);
 function addNewUser(){
-   setUsers([{id: Math.random(), name:"Marcelo", age: 32}])
+   setUsers([...users,{id:Math.random(),name,age}])
+}
+function changeImputName(event){
+  setName(event.target.value)
+}
+function changeImputAge(event){
+  setAge(event.target.value)
 }
   return <Container>
     <Imagem alt="logo-image" src={People}></Imagem>
     <ContainerItens>
     <H1>Olá!</H1>
     <InputLabel>Nome:</InputLabel>
-    <Input placeholder="Nome:"></Input>
+    <Input onChange={changeImputName} placeholder="Nome:"></Input>
     <InputLabel>Idade:</InputLabel>
-    <Input placeholder="Idade:"></Input>
+    <Input onChange={changeImputAge} placeholder="Idade:"></Input>
     <Button onClick={addNewUser}>
       Cadastrar <img alt="seta" src={Arrow}></img>
     </Button>
