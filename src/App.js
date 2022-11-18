@@ -1,7 +1,7 @@
 //Sintaxe Jsx Mistura  JS com HTML
 
-import React,{useState} from "react";
-
+import React,{useState, useRef} from "react";
+import axios from "axios";
 import People from "./assets/people.svg"
 import Arrow from "./assets/arrow.svg"
 import Trash from "./assets/trash.svg"
@@ -9,28 +9,41 @@ import { Container, H1, Imagem, ContainerItens, InputLabel, Input, Button, User 
 
 
 function App ()  {
-
   // const users =  []
   const [users,setUsers] = useState([]);
-  const [name,setName] = useState([]); //Criação de um estado 
-  const [age,setAge] = useState([]);
-function addNewUser(){
-   setUsers([...users,{id:Math.random(),name,age}])
+  const inputName = useRef()
+  const inputAge = useRef()
+  
+async function addNewUser(){
+
+  const data = await axios.post("http://localhost:3001/users",{name:inputName.current.value, age: inputAge.current.value})
+
+  console.log(data)
+
+
+  //  setUsers([...users,
+  //   {id:Math.random(),
+  //     name: inputName.current.value,
+  //     age: inputAge.current.value,
+  //   }])
+  }
+
+function deleteUser(userId){
+   const newUser = users.filter(user => user.id !== userId)
+   setUsers(newUser)
 }
-function changeImputName(event){
-  setName(event.target.value)
-}
-function changeImputAge(event){
-  setAge(event.target.value)
-}
+
   return <Container>
     <Imagem alt="logo-image" src={People}></Imagem>
     <ContainerItens>
     <H1>Olá!</H1>
+
     <InputLabel>Nome:</InputLabel>
-    <Input onChange={changeImputName} placeholder="Nome:"></Input>
+    <Input ref={inputName} placeholder="Nome:"></Input>
+
     <InputLabel>Idade:</InputLabel>
-    <Input onChange={changeImputAge} placeholder="Idade:"></Input>
+    <Input ref={inputAge} placeholder="Idade:"></Input>
+
     <Button onClick={addNewUser}>
       Cadastrar <img alt="seta" src={Arrow}></img>
     </Button>
@@ -38,7 +51,8 @@ function changeImputAge(event){
       {  users.map(user => (
         <User key={user.id}>
          <p>{user.name}</p> <p>{user.age}</p> 
-         <button> <img src={Trash} alt="Lata de lixo"></img> </button>
+         <button onClick={ ()=> deleteUser(user.id)}> 
+          <img src={Trash} alt="Lata de lixo"></img> </button>
         </User>  
       ))}
     </ul>
