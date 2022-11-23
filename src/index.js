@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import GloblaStyle from './global';
+import GloblaStyle from './styles/global';
+import Routes  from './routes';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<> <App /> <GloblaStyle /></>
+root.render(<> <Routes/> <GloblaStyle /></>
     
 );
 
